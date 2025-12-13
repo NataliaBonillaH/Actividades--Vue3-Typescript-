@@ -1,0 +1,15 @@
+<script setup lang="ts">
+import InteractiveMap from '../components/InteractiveMap.vue'
+</script>
+
+<template>
+  <div>
+    <InteractiveMap />
+  </div>
+</template>
+
+<style scoped>
+div {
+  min-height: 100vh;
+}
+</style>
