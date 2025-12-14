@@ -24,17 +24,22 @@ defineProps<Props>()
 
 <style scoped>
 .mission-item {
-  background: white;
+  background: #fffaf7;
   border-radius: 8px;
   padding: 12px;
   margin-bottom: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border: 2px solid #ddd;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border: 2px solid #d4ccc2;
+  transition: all 0.2s ease;
+}
+
+.mission-item:hover {
+  box-shadow: 0 4px 10px rgba(139, 123, 111, 0.1);
 }
 
 .mission-item.completada {
-  border-color: #4ade80;
-  background: #f0fdf4;
+  border-color: #a8d5a8;
+  background: #f5faf5;
 }
 
 .mission-header {
@@ -46,12 +51,13 @@ defineProps<Props>()
 
 .mission-header h4 {
   margin: 0;
-  color: #333;
+  color: #6b5b50;
+  font-weight: 600;
 }
 
 .recompensa {
-  background: #fbbf24;
-  color: #78350f;
+  background: #e8d4a0;
+  color: #8b7355;
   padding: 2px 8px;
   border-radius: 4px;
   font-size: 0.85rem;
@@ -61,7 +67,7 @@ defineProps<Props>()
 .descripción {
   margin: 0 0 8px 0;
   font-size: 0.9rem;
-  color: #666;
+  color: #8b7b6f;
 }
 
 .mission-status {
@@ -78,12 +84,12 @@ defineProps<Props>()
 }
 
 .status-badge.completed {
-  background: #d1fae5;
-  color: #065f46;
+  background: #d1e7d1;
+  color: #5a7a5a;
 }
 
 .status-badge.pending {
-  background: #fee2e2;
-  color: #7f1d1d;
+  background: #e8d4d4;
+  color: #8b6a6a;
 }
 </style>

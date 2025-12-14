@@ -10,6 +10,6 @@ import ZoneLobby from '../components/ZoneLobby.vue'
 
 <style scoped>
 div {
-  min-height: 100vh;
+  max-width: 100vh;
 }
 </style>

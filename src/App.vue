@@ -1,8 +1,27 @@
 <script setup lang="ts">
 import { RouterView, RouterLink } from 'vue-router'
 import { ref } from 'vue'
+import PokemonCard from './components/PokemonCard.vue'
 
 const menuOpen = ref(false)
+
+const demoPokemons = [
+  {
+    nombre: 'Pikachu',
+    sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png',
+    tipo: 'Eléctrico',
+  },
+  {
+    nombre: 'Charmander',
+    sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png',
+    tipo: 'Fuego',
+  },
+  {
+    nombre: 'Bulbasaur',
+    sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
+    tipo: 'Planta',
+  },
+]
 </script>
 
 <template>
@@ -26,6 +45,19 @@ const menuOpen = ref(false)
     </header>
 
     <main class="main-content">
+      <section class="demo-cards" aria-label="tarjetas de ejemplo">
+        <h2>Tarjetas de ejemplo</h2>
+        <div class="cards-row">
+          <PokemonCard
+            v-for="p in demoPokemons"
+            :key="p.nombre"
+            :nombre="p.nombre"
+            :sprite="p.sprite"
+            :tipo="p.tipo"
+          />
+        </div>
+      </section>
+
       <RouterView />
     </main>
 
@@ -45,22 +77,23 @@ const menuOpen = ref(false)
 #app {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  background: #f8f9fa;
+  width: 98%;
+  margin: 0 auto;
+  background: #f5f3f0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .app-header {
   position: sticky;
   top: 0;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(90deg, #8b7b6f 0%, #a89888 100%);
   color: white;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   z-index: 1000;
 }
 
 .header-container {
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 12px 20px;
   display: flex;
@@ -125,15 +158,37 @@ const menuOpen = ref(false)
 
 .main-content {
   flex: 1;
-  max-width: 1200px;
   width: 100%;
   margin: 0 auto;
   padding: 20px;
 }
 
+.demo-cards {
+  width: 100%;
+  margin: 16px auto 28px;
+  display: none; /* oculto en móviles */
+}
+.demo-cards h2 {
+  font-size: 1.1rem;
+  margin: 0 0 12px 0;
+  color: #6b5b50;
+  font-weight: 600;
+}
+.cards-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+@media (min-width: 1024px) {
+  .demo-cards {
+    display: block;
+  }
+}
+
 .app-footer {
-  background: #333;
-  color: #999;
+  background: #d4ccc2;
+  color: #7a6e65;
   text-align: center;
   padding: 16px;
   font-size: 0.9rem;

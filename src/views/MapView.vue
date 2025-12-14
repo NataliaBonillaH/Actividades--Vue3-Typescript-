@@ -10,6 +10,7 @@ import InteractiveMap from '../components/InteractiveMap.vue'
 
 <style scoped>
 div {
-  min-height: 100vh;
+  width: 98%;
+  margin: 0 auto;
 }
 </style>

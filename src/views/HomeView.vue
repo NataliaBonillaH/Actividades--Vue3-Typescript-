@@ -52,7 +52,7 @@ import { RouterLink } from 'vue-router'
 
 <style scoped>
 .home-page {
-  max-width: 1000px;
+  width: 98%;
   margin: 0 auto;
   padding: 20px;
 }
@@ -65,16 +65,19 @@ import { RouterLink } from 'vue-router'
 .hero-section h1 {
   font-size: 3rem;
   margin: 0 0 12px 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8b7b6f 0%, #b89968 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  font-weight: 800;
+  letter-spacing: -0.5px;
 }
 
 .subtitle {
   font-size: 1.2rem;
-  color: #666;
+  color: #8b7b6f;
   margin: 0;
+  font-weight: 400;
 }
 
 .features-section {
@@ -85,44 +88,48 @@ import { RouterLink } from 'vue-router'
 }
 
 .feature-card {
-  background: white;
+  background: #fffaf7;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   transition: all 0.3s ease;
-  border-left: 4px solid #667eea;
+  border-left: 4px solid #b89968;
 }
 
 .feature-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+  box-shadow: 0 6px 16px rgba(184, 153, 104, 0.12);
 }
 
 .feature-card h3 {
   margin: 0 0 8px 0;
-  color: #333;
+  color: #6b5b50;
   font-size: 1.1rem;
+  font-weight: 600;
 }
 
 .feature-card p {
   margin: 0;
-  color: #666;
+  color: #8b7b6f;
   font-size: 0.9rem;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 .cta-section {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8b7b6f 0%, #a89888 100%);
   color: white;
   padding: 40px;
   border-radius: 12px;
   text-align: center;
   margin-bottom: 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .cta-section h2 {
   margin: 0 0 20px 0;
   font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -0.3px;
 }
 
 .button-group {
@@ -144,42 +151,47 @@ import { RouterLink } from 'vue-router'
 
 .btn-primary {
   background: white;
-  color: #667eea;
+  color: #8b7b6f;
+  font-weight: 700;
 }
 
 .btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  background: #fffaf7;
 }
 
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
   color: white;
   border: 2px solid white;
+  font-weight: 700;
 }
 
 .btn-secondary:hover {
   background: white;
-  color: #667eea;
+  color: #8b7b6f;
 }
 
 .info-section {
-  background: white;
+  background: #fffaf7;
   padding: 24px;
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e8e1d8;
 }
 
 .info-section h3 {
   margin-top: 0;
-  color: #333;
+  color: #6b5b50;
   font-size: 1.2rem;
+  font-weight: 600;
 }
 
 .info-section ul {
   margin: 0;
   padding-left: 20px;
-  color: #666;
+  color: #8b7b6f;
   line-height: 1.8;
 }
 

@@ -21,13 +21,19 @@ defineProps<Props>()
 
 <style scoped>
 .npc-item {
-  background: white;
+  background: #fffaf7;
   border-radius: 8px;
   padding: 12px;
   margin-bottom: 12px;
   display: flex;
   gap: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e8e1d8;
+  transition: all 0.2s ease;
+}
+
+.npc-item:hover {
+  box-shadow: 0 4px 10px rgba(139, 123, 111, 0.1);
 }
 
 .npc-avatar {
@@ -40,20 +46,21 @@ defineProps<Props>()
 
 .npc-info h4 {
   margin: 0 0 4px 0;
-  color: #333;
+  color: #6b5b50;
+  font-weight: 600;
 }
 
 .npc-info .rol {
   margin: 0 0 6px 0;
   font-size: 0.85rem;
-  color: #667eea;
+  color: #b89968;
   font-weight: 600;
 }
 
 .npc-info .diálogo {
   margin: 0;
   font-size: 0.9rem;
-  color: #666;
+  color: #8b7b6f;
   font-style: italic;
 }
 </style>

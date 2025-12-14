@@ -44,14 +44,15 @@ const handleZoneClick = () => {
 }
 
 .zone-unlocked {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8b7b6f 0%, #b89968 100%);
   color: white;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 12px rgba(139, 123, 111, 0.3);
+  font-weight: 700;
 }
 
 .zone-unlocked:hover {
   transform: translateY(-6px);
-  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.6);
+  box-shadow: 0 10px 25px rgba(139, 123, 111, 0.4);
 }
 
 .zone-unlocked:active {
@@ -59,8 +60,8 @@ const handleZoneClick = () => {
 }
 
 .zone-locked {
-  background: #e0e0e0;
-  color: #999;
+  background: #e8e1d8;
+  color: #a89888;
   cursor: not-allowed;
   opacity: 0.6;
 }

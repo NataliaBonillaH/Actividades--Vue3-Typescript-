@@ -106,13 +106,13 @@ const volverAlMapa = () => {
 <style scoped>
 .zone-lobby {
   min-height: 100vh;
-  background: linear-gradient(180deg, #f5f5f5 0%, #ffffff 100%);
+  background: #f5f3f0;
   padding: 20px;
   padding-bottom: 40px;
 }
 
 .lobby-header {
-  max-width: 1200px;
+  width: 100%;
   margin: 0 auto 30px;
   position: relative;
   display: flex;
@@ -121,7 +121,7 @@ const volverAlMapa = () => {
 }
 
 .btn-back {
-  background: #667eea;
+  background: #8b7b6f;
   color: white;
   border: none;
   padding: 8px 14px;
@@ -133,7 +133,7 @@ const volverAlMapa = () => {
 }
 
 .btn-back:hover {
-  background: #5568d3;
+  background: #6b5b50;
   transform: translateX(-2px);
 }
 
@@ -144,18 +144,20 @@ const volverAlMapa = () => {
 .lobby-header h1 {
   font-size: 2.2rem;
   margin: 0;
-  color: #333;
+  color: #6b5b50;
+  font-weight: 800;
 }
 
 .lobby-header h2 {
   font-size: 1.3rem;
   margin: 4px 0 0 0;
-  color: #667eea;
+  color: #b89968;
+  font-weight: 600;
 }
 
 /* Quick Actions Section */
 .quick-actions {
-  max-width: 1200px;
+  width: 100%;
   margin: 0 auto 30px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -163,7 +165,7 @@ const volverAlMapa = () => {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8b7b6f 0%, #b89968 100%);
   color: white;
   border: none;
   padding: 12px 16px;
@@ -176,7 +178,7 @@ const volverAlMapa = () => {
 
 .btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 8px 20px rgba(139, 123, 111, 0.3);
 }
 
 .btn-primary:active {
@@ -185,8 +187,8 @@ const volverAlMapa = () => {
 
 .btn-secondary {
   background: white;
-  color: #667eea;
-  border: 2px solid #667eea;
+  color: #8b7b6f;
+  border: 2px solid #d4ccc2;
   padding: 10px 14px;
   border-radius: 8px;
   font-size: 0.95rem;
@@ -196,8 +198,9 @@ const volverAlMapa = () => {
 }
 
 .btn-secondary:hover {
-  background: #667eea;
+  background: #8b7b6f;
   color: white;
+  border-color: #8b7b6f;
   transform: translateY(-2px);
 }
 
@@ -208,7 +211,7 @@ const volverAlMapa = () => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -216,25 +219,26 @@ const volverAlMapa = () => {
 }
 
 .modal-content {
-  background: white;
+  background: #fffaf7;
   padding: 40px;
   border-radius: 12px;
   text-align: center;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  border: 1px solid #e8e1d8;
 }
 
 .loading {
   font-size: 1.5rem;
   margin-bottom: 20px;
-  color: #333;
+  color: #6b5b50;
   font-weight: 600;
 }
 
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #f0f0f0;
-  border-top: 4px solid #667eea;
+  border: 4px solid #e8e1d8;
+  border-top: 4px solid #b89968;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
   margin: 0 auto;
@@ -248,7 +252,7 @@ const volverAlMapa = () => {
 
 /* Content Sections */
 .lobby-content {
-  max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -256,19 +260,21 @@ const volverAlMapa = () => {
 }
 
 .lobby-section {
-  background: white;
+  background: #fffaf7;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e8e1d8;
 }
 
 .lobby-section h2 {
   margin-top: 0;
   margin-bottom: 16px;
-  color: #333;
+  color: #6b5b50;
   font-size: 1.1rem;
-  border-bottom: 3px solid #667eea;
+  border-bottom: 2px solid #b89968;
   padding-bottom: 8px;
+  font-weight: 600;
 }
 
 .content-list {
@@ -279,7 +285,7 @@ const volverAlMapa = () => {
 
 .no-data {
   text-align: center;
-  color: #999;
+  color: #a89888;
   padding: 20px;
   font-style: italic;
 }

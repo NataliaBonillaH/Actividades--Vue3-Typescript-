@@ -21,7 +21,7 @@ import { zonas } from '../data/zones'
 <style scoped>
 .map-container {
   padding: 40px 20px;
-  background: linear-gradient(180deg, #f5f5f5 0%, #ffffff 100%);
+  background: #f5f3f0;
   min-height: 100vh;
 }
 
@@ -29,14 +29,16 @@ import { zonas } from '../data/zones'
   text-align: center;
   font-size: 2.5rem;
   margin-bottom: 8px;
-  color: #333;
+  color: #6b5b50;
+  font-weight: 800;
 }
 
 .map-subtitle {
   text-align: center;
-  color: #666;
+  color: #8b7b6f;
   margin-bottom: 40px;
   font-size: 0.95rem;
+  font-weight: 400;
 }
 
 .map-path {
@@ -59,7 +61,7 @@ import { zonas } from '../data/zones'
 .connector {
   width: 4px;
   height: 30px;
-  background: linear-gradient(180deg, #ddd 0%, #bbb 100%);
+  background: linear-gradient(180deg, #d4ccc2 0%, #a89888 100%);
   margin-bottom: 10px;
 }
 

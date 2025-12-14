@@ -23,22 +23,28 @@ defineProps<Props>()
 
 <style scoped>
 .trainer-item {
-  background: white;
+  background: #fffaf7;
   border-radius: 8px;
   padding: 12px;
   margin-bottom: 12px;
   display: flex;
   gap: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border-left: 4px solid #ddd;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #d4ccc2;
+  border: 1px solid #e8e1d8;
+  transition: all 0.2s ease;
+}
+
+.trainer-item:hover {
+  box-shadow: 0 4px 10px rgba(139, 123, 111, 0.1);
 }
 
 .trainer-item.disponible {
-  border-left-color: #4ade80;
+  border-left-color: #a8d5a8;
 }
 
 .trainer-item.ocupado {
-  border-left-color: #f87171;
+  border-left-color: #e8d4d4;
   opacity: 0.7;
 }
 
@@ -52,13 +58,14 @@ defineProps<Props>()
 
 .trainer-info h4 {
   margin: 0 0 4px 0;
-  color: #333;
+  color: #6b5b50;
+  font-weight: 600;
 }
 
 .trainer-info .nivel {
   margin: 0;
   font-size: 0.9rem;
-  color: #666;
+  color: #8b7b6f;
 }
 
 .estado-badge {

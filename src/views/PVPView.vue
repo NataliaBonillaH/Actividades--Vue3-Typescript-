@@ -11,6 +11,29 @@ const currentTurn = ref('player')
 const battleOver = ref(false)
 const winner = ref('')
 
+interface SelectedPokemon {
+  name: string
+  sprite: string
+}
+const playerPokemon = ref<SelectedPokemon | null>(null)
+const enemyPokemon = ref<SelectedPokemon | null>(null)
+
+const spriteIds: Record<string, number> = {
+  pikachu: 25,
+  charmander: 4,
+  squirtle: 7,
+  bulbasaur: 1,
+  dragonite: 149,
+  blastoise: 9,
+}
+
+function getSpriteUrl(name: string) {
+  const id = spriteIds[name.toLowerCase()]
+  return id
+    ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+    : ''
+}
+
 const pokemones = ['Pikachu', 'Charmander', 'Squirtle', 'Bulbasaur', 'Dragonite', 'Blastoise']
 
 const startBattle = () => {
@@ -21,8 +44,13 @@ const startBattle = () => {
   currentTurn.value = 'player'
   battleOver.value = false
   battleLog.value.push('¡Comienza la batalla PVP!')
-  battleLog.value.push(`Tu Pokémon: ${pokemones[Math.floor(Math.random() * pokemones.length)]}`)
-  battleLog.value.push(`Enemigo: ${pokemones[Math.floor(Math.random() * pokemones.length)]}`)
+  // seleccionar pokémones y guardarlos para mostrarlos en las tarjetas
+  const playerChoice = pokemones[Math.floor(Math.random() * pokemones.length)]
+  const enemyChoice = pokemones[Math.floor(Math.random() * pokemones.length)]
+  playerPokemon.value = { name: playerChoice, sprite: getSpriteUrl(playerChoice) }
+  enemyPokemon.value = { name: enemyChoice, sprite: getSpriteUrl(enemyChoice) }
+  battleLog.value.push(`Tu Pokémon: ${playerChoice}`)
+  battleLog.value.push(`Enemigo: ${enemyChoice}`)
 }
 
 const attackEnemy = () => {
@@ -68,203 +96,285 @@ const enemyAttack = () => {
 
 const endBattle = () => {
   inBattle.value = false
+  // limpiar selección al finalizar
+  playerPokemon.value = null
+  enemyPokemon.value = null
   router.push('/map')
 }
 </script>
 
 <template>
-  <div class="pvp-page">
-    <h1>⚔️ PVP Arena</h1>
+  <main>
+    <h1>⚔️ Battle Pokémon Arena</h1>
 
-    <div v-if="!inBattle" class="pvp-lobby">
-      <p>Bienvenido a la Arena PVP. Aquí podrás combatir contra otros entrenadores.</p>
-      <button class="btn-start-battle" @click="startBattle">Iniciar Batalla</button>
-      <button class="btn-back" @click="router.push('/map')">← Volver al Mapa</button>
+    <!-- Sección de información general -->
+    <section class="info-section">
+      <div class="info-card">
+        <h3>📊 Estado de Batalla</h3>
+        <p>
+          <strong>Turno:</strong> {{ currentTurn === 'player' ? 'Tu turno' : 'Turno del enemigo' }}
+        </p>
+        <p><strong>Estado:</strong> {{ inBattle ? 'En batalla' : 'Esperando batalla' }}</p>
+      </div>
+    </section>
+
+    <!-- Estado del juego si está terminada -->
+    <div v-if="battleOver && inBattle" class="gameOver">
+      <h2>🏆 ¡Batalla Finalizada!</h2>
+      <p>
+        El ganador es: <strong>{{ winner === 'player' ? '¡Tú!' : 'El oponente' }}</strong>
+      </p>
     </div>
 
-    <div v-else class="pvp-battle">
-      <!-- Battle Header -->
-      <div class="battle-header">
-        <div class="player-side">
-          <h3>TÚ</h3>
-          <div class="hp-bar">
-            <div class="hp-fill" :style="{ width: playerHP + '%' }"></div>
-          </div>
-          <p class="hp-text">HP: {{ playerHP }}/100</p>
+    <!-- Lobby de batalla (antes de iniciar) -->
+    <div v-if="!inBattle" class="battle-section">
+      <div class="pokemon-card">
+        <h2>⚔️ Arena PVP</h2>
+        <p>
+          Bienvenido a la Arena PVP. Aquí podrás combatir contra otros entrenadores en duelos
+          épicos.
+        </p>
+        <button class="btn-attack" @click="startBattle">🎮 Iniciar Batalla</button>
+      </div>
+    </div>
+
+    <!-- Sección de batalla activa -->
+    <div v-else class="battle-section">
+      <div class="pokemon-card">
+        <h2>🎯 Tu Pokémon</h2>
+        <div class="sprite-wrap">
+          <img
+            v-if="playerPokemon && playerPokemon.sprite"
+            :src="playerPokemon.sprite"
+            :alt="playerPokemon.name"
+            class="pokemon-sprite"
+          />
         </div>
-
-        <div class="vs-text">VS</div>
-
-        <div class="enemy-side">
-          <h3>ENEMIGO</h3>
-          <div class="hp-bar">
-            <div class="hp-fill" :style="{ width: enemyHP + '%' }"></div>
-          </div>
-          <p class="hp-text">HP: {{ enemyHP }}/100</p>
+        <p><strong>Nombre:</strong> {{ playerPokemon ? playerPokemon.name : 'N/A' }}</p>
+        <p><strong>HP:</strong> {{ playerHP }}/100</p>
+        <div class="hp-bar">
+          <div class="hp-fill" :style="{ width: playerHP + '%' }"></div>
         </div>
       </div>
 
-      <!-- Battle Log -->
+      <div class="pokemon-card">
+        <h2>⚔️ Pokémon Oponente</h2>
+        <div class="sprite-wrap">
+          <img
+            v-if="enemyPokemon && enemyPokemon.sprite"
+            :src="enemyPokemon.sprite"
+            :alt="enemyPokemon.name"
+            class="pokemon-sprite"
+          />
+        </div>
+        <p><strong>Nombre:</strong> {{ enemyPokemon ? enemyPokemon.name : 'N/A' }}</p>
+        <p><strong>HP:</strong> {{ enemyHP }}/100</p>
+        <div class="hp-bar">
+          <div class="hp-fill" :style="{ width: enemyHP + '%' }"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Log de batalla -->
+    <div v-if="inBattle" class="panels-container">
       <div class="battle-log">
-        <div v-for="(log, idx) in battleLog" :key="idx" class="log-entry">
-          {{ log }}
+        <h3>📜 Registro de Batalla</h3>
+        <div class="log-content">
+          <div v-for="(log, idx) in battleLog" :key="idx" class="log-entry">
+            {{ log }}
+          </div>
         </div>
       </div>
-
-      <!-- Battle Actions -->
-      <div v-if="!battleOver" class="battle-actions">
-        <button class="btn-action attack" @click="attackEnemy" :disabled="currentTurn !== 'player'">
-          ⚡ Atacar
-        </button>
-        <button class="btn-action defend" @click="defendEnemy" :disabled="currentTurn !== 'player'">
-          🛡️ Defender
-        </button>
-      </div>
-
-      <!-- Battle Over -->
-      <div v-else class="battle-result">
-        <h2 v-if="winner === 'player'" class="win">¡GANASTE! 🏆</h2>
-        <h2 v-else class="lose">DERROTA 💔</h2>
-        <button class="btn-end-battle" @click="endBattle">Volver al Mapa</button>
-      </div>
     </div>
-  </div>
+
+    <!-- Botones principales centrados -->
+    <div v-if="inBattle && !battleOver" class="button-group">
+      <button class="btn-primary" @click="attackEnemy" :disabled="currentTurn !== 'player'">
+        ⚡ Atacar
+      </button>
+      <button class="btn-primary" @click="defendEnemy" :disabled="currentTurn !== 'player'">
+        🛡️ Defender
+      </button>
+    </div>
+
+    <!-- Botón para volver -->
+    <div v-if="!inBattle || battleOver" class="button-group">
+      <button class="btn-primary" @click="endBattle">← Volver al Mapa</button>
+    </div>
+  </main>
 </template>
 
 <style scoped>
-.pvp-page {
+* {
+  box-sizing: border-box;
+}
+
+main {
+  text-align: center;
+  padding: 1.5rem;
+  width: 98%;
+  margin: 0 auto;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 20px;
 }
 
-.pvp-page h1 {
-  text-align: center;
-  font-size: 2.5rem;
-  margin-bottom: 30px;
+h1 {
+  color: #6b5b50;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
 }
 
-.pvp-lobby {
-  max-width: 600px;
-  margin: 0 auto;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 40px;
-  border-radius: 12px;
-  backdrop-filter: blur(10px);
-}
-
-.pvp-lobby p {
-  font-size: 1.1rem;
-  margin-bottom: 20px;
-}
-
-.btn-start-battle,
-.btn-back {
-  display: block;
-  width: 100%;
-  padding: 14px 20px;
-  margin: 10px 0;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.btn-start-battle {
-  background: #fff;
-  color: #667eea;
-  margin-bottom: 20px;
-}
-
-.btn-start-battle:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-}
-
-.btn-back {
-  background: transparent;
-  color: white;
-  border: 2px solid white;
-}
-
-.btn-back:hover {
-  background: white;
-  color: #667eea;
-}
-
-/* Battle Arena */
-.pvp-battle {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.battle-header {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 20px;
-  margin-bottom: 30px;
+.battle-section {
+  display: flex;
+  justify-content: center;
   align-items: center;
+  margin: 2rem 0;
+  gap: 2rem;
+  flex-wrap: wrap;
 }
 
-.player-side,
-.enemy-side {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 20px;
-  border-radius: 12px;
-  backdrop-filter: blur(10px);
+.pokemon-card {
+  border: 1px solid #d4ccc2;
+  padding: 1.5rem;
+  border-radius: 8px;
+  width: 220px;
+  background: #fffaf7;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
-.player-side h3,
-.enemy-side h3 {
-  margin: 0 0 10px 0;
-  font-size: 1.3rem;
+.pokemon-card h2 {
+  margin: 0 0 1rem 0;
+  color: #6b5b50;
+  font-size: 1.1rem;
 }
 
-.vs-text {
-  text-align: center;
-  font-size: 1.5rem;
-  font-weight: 800;
+.pokemon-card p {
+  margin: 0.7rem 0;
+  text-align: left;
+  color: #8b7b6f;
+  font-size: 0.95rem;
 }
 
 .hp-bar {
   width: 100%;
   height: 24px;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.08);
   border-radius: 12px;
   overflow: hidden;
-  margin-bottom: 8px;
+  margin: 0.5rem 0;
 }
 
 .hp-fill {
   height: 100%;
-  background: linear-gradient(90deg, #4ade80 0%, #22c55e 100%);
+  background: linear-gradient(90deg, #a8d5a8 0%, #7fbf7f 100%);
   transition: width 0.5s ease;
 }
 
-.hp-text {
-  margin: 0;
-  font-size: 0.9rem;
-  text-align: center;
+.btn-attack {
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background-color: #b89968;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  min-width: 180px;
+}
+
+.btn-attack:hover {
+  background-color: #a0845a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(184, 153, 104, 0.2);
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin: 2.5rem 0;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  padding: 1rem 2.5rem;
+  background-color: #fff;
+  color: #6b5b50;
+  border: 2px solid #d4ccc2;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: all 0.4s ease;
+  min-width: 210px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.btn-primary:hover:not(:disabled) {
+  border-color: #b89968;
+  background-color: #faf8f5;
+  color: #b89968;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(184, 153, 104, 0.15);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.panels-container {
+  margin-top: 2rem;
+  animation: slideIn 0.3s ease-in-out;
+  width: 100%;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .battle-log {
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 12px;
-  padding: 16px;
-  max-height: 250px;
+  background: #fffaf7;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #d4ccc2;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.battle-log h3 {
+  margin: 0 0 1rem 0;
+  color: #6b5b50;
+  font-size: 1.1rem;
+}
+
+.log-content {
+  max-height: 300px;
   overflow-y: auto;
-  margin-bottom: 20px;
-  backdrop-filter: blur(10px);
-  min-height: 200px;
+  text-align: left;
 }
 
 .log-entry {
-  padding: 6px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e8e1d8;
+  color: #8b7b6f;
   font-size: 0.95rem;
 }
 
@@ -272,131 +382,227 @@ const endBattle = () => {
   border-bottom: none;
 }
 
-.battle-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.btn-action {
-  padding: 14px 20px;
-  border: none;
+.gameOver {
+  background-color: #f5deb3;
+  border: 2px solid #d4af6f;
+  padding: 1.5rem;
   border-radius: 8px;
+  margin-bottom: 2rem;
+  color: #8b7355;
+  width: 100%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.gameOver h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.3rem;
+}
+
+.gameOver p {
+  margin: 0;
   font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s ease;
 }
 
-.btn-action.attack {
-  background: #ff4757;
-  color: white;
+.info-section {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
-.btn-action.attack:hover:not(:disabled) {
-  background: #ff3838;
-  transform: translateY(-3px);
-}
-
-.btn-action.defend {
-  background: #ffa502;
-  color: white;
-}
-
-.btn-action.defend:hover:not(:disabled) {
-  background: #ff8c00;
-  transform: translateY(-3px);
-}
-
-.btn-action:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.battle-result {
-  text-align: center;
-  background: rgba(0, 0, 0, 0.3);
-  padding: 40px;
-  border-radius: 12px;
-  backdrop-filter: blur(10px);
-}
-
-.battle-result h2 {
-  font-size: 2.5rem;
-  margin-bottom: 30px;
-}
-
-.battle-result .win {
-  color: #4ade80;
-}
-
-.battle-result .lose {
-  color: #ff4757;
-}
-
-.btn-end-battle {
-  background: white;
-  color: #667eea;
-  padding: 12px 30px;
-  border: none;
+.info-card {
+  background: #fffaf7;
+  padding: 1.5rem;
   border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  border: 1px solid #d4ccc2;
+  min-width: 250px;
+  max-width: 400px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
-.btn-end-battle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+.info-card h3 {
+  margin: 0 0 1rem 0;
+  color: #6b5b50;
+  font-size: 1.1rem;
+}
+
+.info-card p {
+  margin: 0.5rem 0;
+  color: #8b7b6f;
+  font-size: 0.95rem;
+}
+
+/* Responsive Design */
+.pokemon-sprite {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+
+.sprite-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 1024px) {
+  main {
+    padding: 1.2rem;
+    max-width: 100%;
+  }
+
+  h1 {
+    font-size: 1.7rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .battle-section {
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .pokemon-card {
+    width: 200px;
+  }
+
+  .btn-primary {
+    min-width: 180px;
+    padding: 0.9rem 2rem;
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 768px) {
-  .pvp-page h1 {
-    font-size: 1.8rem;
+  main {
+    padding: 1rem;
   }
 
-  .battle-header {
-    grid-template-columns: 1fr;
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
   }
 
-  .vs-text {
-    order: -1;
-    margin-bottom: 10px;
+  .battle-section {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .pokemon-card {
+    width: 100%;
+    max-width: 280px;
+    padding: 1rem;
+  }
+
+  .pokemon-card h2 {
+    font-size: 1rem;
+  }
+
+  .pokemon-card p {
+    font-size: 0.9rem;
+  }
+
+  .button-group {
+    gap: 1.2rem;
+    margin: 1.8rem 0;
+  }
+
+  .btn-primary {
+    min-width: 140px;
+    padding: 0.8rem 1.8rem;
+    font-size: 0.95rem;
+  }
+
+  .info-section {
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .info-card {
+    min-width: 100%;
+    max-width: 100%;
+    padding: 1.2rem;
+  }
+
+  .info-card h3 {
+    font-size: 1rem;
+  }
+
+  .info-card p {
+    font-size: 0.9rem;
   }
 
   .battle-log {
-    max-height: 200px;
-    min-height: 150px;
-  }
-
-  .pvp-lobby {
-    padding: 20px;
-  }
-
-  .btn-start-battle,
-  .btn-back {
-    font-size: 0.9rem;
-    padding: 12px;
+    max-width: 100%;
   }
 }
 
 @media (max-width: 480px) {
-  .pvp-page {
-    padding: 12px;
+  main {
+    padding: 0.8rem;
   }
 
-  .pvp-page h1 {
-    font-size: 1.5rem;
+  h1 {
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
   }
 
-  .battle-actions {
-    grid-template-columns: 1fr;
+  .battle-section {
+    gap: 0.8rem;
+    margin: 1rem 0;
   }
 
-  .btn-action {
-    padding: 12px 16px;
+  .pokemon-card {
+    width: 100%;
+    padding: 0.8rem;
+  }
+
+  .pokemon-card h2 {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .pokemon-card p {
+    font-size: 0.85rem;
+    margin: 0.4rem 0;
+  }
+
+  .btn-attack {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .button-group {
+    gap: 0.8rem;
+    margin: 1.2rem 0;
+    justify-content: center;
+  }
+
+  .btn-primary {
+    min-width: 130px;
+    padding: 0.7rem 1.4rem;
+    font-size: 0.85rem;
+  }
+
+  .info-card {
+    padding: 1rem;
+    min-width: 100%;
+  }
+
+  .gameOver {
+    padding: 1rem;
+  }
+
+  .gameOver h2 {
+    font-size: 1.1rem;
+  }
+
+  .gameOver p {
     font-size: 0.9rem;
   }
 }

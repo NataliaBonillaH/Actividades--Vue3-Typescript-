@@ -30,13 +30,14 @@ const allMissions = Object.values(misionesPorZona).flat()
 
 <style scoped>
 .missions-page {
-  min-height: 100vh;
+  width: 98%;
+  margin: 0 auto;
   padding: 20px;
-  background: linear-gradient(180deg, #f5f5f5 0%, #ffffff 100%);
+  background: #f5f3f0;
 }
 
 .missions-header {
-  max-width: 1200px;
+  width: 100%;
   margin: 0 auto 30px;
   display: flex;
   align-items: center;
@@ -47,11 +48,12 @@ const allMissions = Object.values(misionesPorZona).flat()
 .missions-header h1 {
   font-size: 2.2rem;
   margin: 0;
-  color: #333;
+  color: #6b5b50;
+  font-weight: 800;
 }
 
 .btn-back {
-  background: #667eea;
+  background: #8b7b6f;
   color: white;
   border: none;
   padding: 10px 16px;
@@ -63,12 +65,12 @@ const allMissions = Object.values(misionesPorZona).flat()
 }
 
 .btn-back:hover {
-  background: #5568d3;
+  background: #6b5b50;
   transform: translateY(-2px);
 }
 
 .missions-list {
-  max-width: 1200px;
+  max-width: 98%;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -76,25 +78,26 @@ const allMissions = Object.values(misionesPorZona).flat()
 }
 
 .mission-card {
-  background: white;
+  background: #fffaf7;
   border-radius: 10px;
   padding: 18px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   transition: all 0.3s ease;
   position: relative;
-  border-left: 4px solid #667eea;
+  border-left: 4px solid #b89968;
+  border: 1px solid #e8e1d8;
 }
 
 .mission-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+  box-shadow: 0 6px 16px rgba(184, 153, 104, 0.12);
 }
 
 .mission-badge {
   position: absolute;
   top: -8px;
   right: 12px;
-  background: #667eea;
+  background: #b89968;
   color: white;
   padding: 4px 10px;
   border-radius: 12px;
@@ -104,15 +107,16 @@ const allMissions = Object.values(misionesPorZona).flat()
 
 .mission-card h3 {
   margin: 0 0 8px 0;
-  color: #333;
+  color: #6b5b50;
   font-size: 1.1rem;
+  font-weight: 600;
 }
 
 .description {
   margin: 0 0 12px 0;
-  color: #666;
+  color: #8b7b6f;
   font-size: 0.9rem;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 .mission-footer {
@@ -123,8 +127,8 @@ const allMissions = Object.values(misionesPorZona).flat()
 }
 
 .reward {
-  background: #fbbf24;
-  color: #78350f;
+  background: #e8d4a0;
+  color: #8b7355;
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 0.85rem;
@@ -140,13 +144,13 @@ const allMissions = Object.values(misionesPorZona).flat()
 }
 
 .status.completed {
-  background: #d1fae5;
-  color: #065f46;
+  background: #d1e7d1;
+  color: #5a7a5a;
 }
 
 .status.pending {
-  background: #fee2e2;
-  color: #7f1d1d;
+  background: #e8d4d4;
+  color: #8b6a6a;
 }
 
 @media (max-width: 768px) {
